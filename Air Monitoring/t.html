@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      var allText=[];
+    var allTextLines=[];
+    var Lines=[]
+    var txtFile=new XMLHttpRequest();
+
+
+    txtFile.open('GET','GPSCordinates.txt',true);
+    allText=txtFile.responseText;
+    allTextLines=allText.split(/\n/);
+
+    txtFile.onreadystatechange = function()
+    {
+        if (txtFile.readyState == 4)
+        {
+            
+                  // Makes sure it's found the file.
+                    allText = txtFile.responseText;
+                    allTextLines = allText.split(/\n/);
+                    var arraylength=allTextLines.length;
+                    for(var i=0; i<arraylength;i++){
+                        allTextLines[i]=allTextLines[i].split(',');
+                    }
+                    for(var i=1;i<arraylength;i++){
+                        allTextLines[i][0]=parseFloat(allTextLines[i][0]);
+                         allTextLines[i][1]=parseFloat(allTextLines[i][1]);
+
+                    }
+                    //allTextLines=[allTextLines]
+                
+                    //document.write(allTextLines);
+                    //console.log(allTextLines);
+                    //document.write(typeof(allTextLines));   
+                } else { //alert("Didn't work"); 
+                }
+        
+        }
+      txtFile.send(null);
+
+    
+   
+     
+
+      google.charts.load("current", {packages:["map"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+     
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(allTextLines);
+
+        var map = new google.visualization.Map(document.getElementById('map_div'));
+        map.draw(data, {
+          showTooltip: true,
+          showInfoWindow: true
+        });
+      }
+     
+    </script>
+  </head>
+
+  <body>
+    <div id="map_div" style="width: 1440px; height: 800px"></div>
+  </body>
+</html>
+<!--
+ var allText=[];
+    var allTextLines=[];
+    var Lines=[]
+    var txtFile=new XMLHttpRequest();
+
+
+    txtFile.open('GET','text.txt',true);
+    allText=txtFile.responseText;
+    allTextLines=allText.split(/\n/);
+
+    txtFile.onreadystatechange=function(){
+      if (txtFile.readystate==4){
+
+        allText=txtFile.responseText;
+        allTextLines=allText.split(/\n/);
+
+        document.write(allTextLines)
+
+
+      }
+      else{
+
+      }
+      txtFile.send(null);
+
+    }-->
